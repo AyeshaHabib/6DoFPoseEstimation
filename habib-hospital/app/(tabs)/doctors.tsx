@@ -41,28 +41,27 @@ export default function DoctorsScreen() {
 
       <View style={styles.list}>
         {filtered.map((doctor) => (
-          <Pressable
-            key={doctor.id}
-            style={styles.card}
-            onPress={() => router.push(`/doctor/${doctor.id}`)}>
-            <View style={styles.cardTop}>
-              <IconBadge name={getIconForDepartmentId(doctor.departmentId)} />
-              <View style={{ flex: 1 }}>
-                <Text style={styles.name}>{doctor.name}</Text>
-                <Text style={styles.specialty}>{doctor.specialty}</Text>
+          <View key={doctor.id} style={styles.card}>
+            <Pressable onPress={() => router.push(`/doctor/${doctor.id}`)}>
+              <View style={styles.cardTop}>
+                <IconBadge name={getIconForDepartmentId(doctor.departmentId)} />
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.name}>{doctor.name}</Text>
+                  <Text style={styles.specialty}>{doctor.specialty}</Text>
+                </View>
               </View>
-            </View>
-            <Text style={styles.meta}>
-              {doctor.experience} · {doctor.fee}
-            </Text>
-            <Text style={styles.availability}>{doctor.availability}</Text>
+              <Text style={styles.meta}>
+                {doctor.experience} · {doctor.fee}
+              </Text>
+              <Text style={styles.availability}>{doctor.availability}</Text>
+            </Pressable>
             <Button
               label="View profile"
               variant="secondary"
               onPress={() => router.push(`/doctor/${doctor.id}`)}
               style={{ marginTop: spacing.sm }}
             />
-          </Pressable>
+          </View>
         ))}
       </View>
     </ScrollView>

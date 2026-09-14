@@ -1,6 +1,6 @@
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import type { ComponentProps } from 'react';
-import { Pressable, StyleSheet, Text, View, ViewStyle } from 'react-native';
+import { Platform, Pressable, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -8,8 +8,6 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { colors, fonts, radii, spacing } from '@/constants/theme';
-
-const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 type ButtonProps = {
   label: string;
@@ -34,46 +32,51 @@ export function Button({
   }));
 
   return (
-    <AnimatedPressable
-      accessibilityRole="button"
-      disabled={disabled}
-      onPress={onPress}
-      onPressIn={() => {
-        scale.value = withSpring(0.97, { damping: 18, stiffness: 320 });
-      }}
-      onPressOut={() => {
-        scale.value = withSpring(1, { damping: 18, stiffness: 320 });
-      }}
-      style={[
-        styles.button,
-        variant === 'primary' && styles.primary,
-        variant === 'secondary' && styles.secondary,
-        variant === 'emergency' && styles.emergency,
-        variant === 'ghost' && styles.ghost,
-        disabled && styles.disabled,
-        animatedStyle,
-        style,
-      ]}>
-      {icon ? (
-        <Ionicons
-          name={icon}
-          size={18}
-          color={
-            variant === 'secondary' || variant === 'ghost'
-              ? colors.brand
-              : colors.white
+    <Animated.View style={[animatedStyle, style]}>
+      <Pressable
+        accessibilityRole="button"
+        disabled={disabled}
+        onPress={onPress}
+        onPressIn={() => {
+          if (Platform.OS !== 'web') {
+            scale.value = withSpring(0.97, { damping: 18, stiffness: 320 });
           }
-          style={{ marginRight: 8 }}
-        />
-      ) : null}
-      <Text
-        style={[
-          styles.label,
-          (variant === 'secondary' || variant === 'ghost') && styles.labelDark,
+        }}
+        onPressOut={() => {
+          if (Platform.OS !== 'web') {
+            scale.value = withSpring(1, { damping: 18, stiffness: 320 });
+          }
+        }}
+        style={({ pressed }) => [
+          styles.button,
+          variant === 'primary' && styles.primary,
+          variant === 'secondary' && styles.secondary,
+          variant === 'emergency' && styles.emergency,
+          variant === 'ghost' && styles.ghost,
+          disabled && styles.disabled,
+          pressed && Platform.OS === 'web' && styles.pressed,
         ]}>
-        {label}
-      </Text>
-    </AnimatedPressable>
+        {icon ? (
+          <Ionicons
+            name={icon}
+            size={18}
+            color={
+              variant === 'secondary' || variant === 'ghost'
+                ? colors.brand
+                : colors.white
+            }
+            style={{ marginRight: 8 }}
+          />
+        ) : null}
+        <Text
+          style={[
+            styles.label,
+            (variant === 'secondary' || variant === 'ghost') && styles.labelDark,
+          ]}>
+          {label}
+        </Text>
+      </Pressable>
+    </Animated.View>
   );
 }
 
@@ -134,6 +137,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
+  },
+  pressed: {
+    opacity: 0.88,
   },
   primary: {
     backgroundColor: colors.brand,

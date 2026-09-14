@@ -45,7 +45,11 @@ export default function HomeScreen() {
   return (
     <View style={styles.root}>
       <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
-        <ImageBackground source={{ uri: heroImage }} style={styles.hero} imageStyle={styles.heroImage}>
+        <ImageBackground
+          source={{ uri: heroImage }}
+          style={styles.hero}
+          resizeMode="cover"
+          imageStyle={styles.heroImage}>
           <LinearGradient
             colors={['rgba(11,61,58,0.35)', 'rgba(11,61,58,0.88)']}
             style={StyleSheet.absoluteFill}
@@ -160,7 +164,8 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   heroImage: {
-    resizeMode: 'cover',
+    width: '100%',
+    height: '100%',
   },
   heroContent: {
     paddingHorizontal: spacing.lg,
