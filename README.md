@@ -1,2 +1,5 @@
-# 6DoFPoseEstimation
-6 dof pose estimation of a sample object with domain randomized NVISII and blenderproc based synthethic dataset generation and Photorealistic dataset generation on Unreal engine
+# Habib Hospital App
+
+Mobile application for Habib Hospital (iOS & Android), built with Expo React Native.
+
+See [`habib-hospital/README.md`](./habib-hospital/README.md) for setup and usage.
